@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MİRAS — Edebî Metinlerden Sürdürülebilir Bir Geleceğe</title>
+<style>
+  :root{
+    --teal:#0f4c5c; --navy:#12324a; --green:#2e6b4f; --forest:#1f4d38;
+    --cream:#faf7f0; --mint:#dff0e4; --blue:#dbe9f7; --peach:#fbe6d2;
+    --red:#e5243b; --pink:#fbe4ea; --yellow:#f6c343; --purple:#c9b8e8;
+    --radius:18px; --shadow:0 6px 20px rgba(18,50,74,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--cream);color:var(--navy);line-height:1.6}
+  h1,h2,h3{font-family:Georgia,'Times New Roman',serif;line-height:1.25}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .hidden{display:none !important}
+
+  header{background:var(--cream);border-bottom:1px solid #e6e0d4;position:sticky;top:0;z-index:50}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .logo svg{width:46px;height:46px;flex:none}
+  .logo .name{font-family:Georgia,serif;font-size:30px;font-weight:700;letter-spacing:2px;color:var(--teal)}
+  .navlinks{display:flex;align-items:center;gap:26px;font-size:15px}
+  .navlinks button{background:none;border:none;font:inherit;cursor:pointer;color:var(--navy);padding:6px 2px}
+  .navlinks button.active{border-bottom:2px solid var(--teal);font-weight:600}
+  .profile{width:38px;height:38px;border-radius:50%;background:var(--navy);display:grid;place-items:center;flex:none}
+  .profile svg{width:20px;height:20px;fill:#fff}
+
+  .hero{text-align:center;padding:52px 0 28px}
+  .hero h1{font-size:clamp(30px,5vw,52px);color:var(--navy);margin-bottom:16px}
+  .hero p{max-width:640px;margin:0 auto;font-size:17px;color:#3d5566}
+
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:36px 0 10px}
+  .grade{border-radius:var(--radius);padding:26px 24px 20px;position:relative;min-height:170px;
+         display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;
+         transition:transform .18s, box-shadow .18s;box-shadow:var(--shadow)}
+  .grade:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(18,50,74,.14)}
+  .grade h2{font-size:24px;margin-bottom:6px}
+  .grade .book{width:64px;height:52px}
+  .g9{background:var(--mint)} .g9 h2{color:#1f5c3d}
+  .g10{background:var(--blue)} .g10 h2{color:#1b4a78}
+  .g11{background:var(--peach)} .g11 h2{color:#a55a1b}
+  .arrow-btn{position:absolute;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;
+             display:grid;place-items:center;color:#fff;font-size:20px}
+  .g9 .arrow-btn{background:#1f5c3d} .g10 .arrow-btn{background:#1b4a78} .g11 .arrow-btn{background:#c9702a}
+
+  .landscape{margin-top:40px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;background:#eaf3e6}
+  .landscape svg{display:block;width:100%;height:auto}
+
+  .page{padding:36px 0 60px}
+  .breadcrumb{font-size:14px;color:#6b7f8c;margin-bottom:18px}
+  .breadcrumb b{color:var(--teal)}
+  .backlink{display:inline-flex;align-items:center;gap:8px;background:none;border:none;font:inherit;
+            color:var(--teal);cursor:pointer;margin-bottom:20px;font-weight:600}
+  .page h1.title{font-size:clamp(26px,4vw,38px);margin-bottom:8px}
+  .page .sub{color:#4a6170;margin-bottom:28px}
+
+  .sdg-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+  .sdg{border-radius:12px;padding:14px 10px;color:#fff;cursor:pointer;min-height:112px;
+       display:flex;flex-direction:column;gap:6px;transition:transform .15s, box-shadow .15s;box-shadow:0 3px 10px rgba(0,0,0,.10)}
+  .sdg:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+  .sdg .num{font-size:20px;font-weight:700;font-family:Georgia,serif}
+  .sdg .name{font-size:11.5px;font-weight:600;line-height:1.3}
+
+  .goal-banner{border-radius:var(--radius);padding:24px 28px;display:flex;align-items:center;gap:22px;
+               color:#fff;margin-bottom:30px;box-shadow:var(--shadow)}
+  .goal-badge{width:64px;height:64px;border-radius:12px;background:rgba(255,255,255,.22);
+              display:grid;place-items:center;font-family:Georgia,serif;font-size:30px;font-weight:700;flex:none}
+  .goal-banner h2{font-size:26px;margin-bottom:4px}
+  .goal-banner p{font-size:15px;opacity:.95}
+
+  .section-title{font-size:22px;margin:34px 0 16px;color:var(--navy)}
+  .works{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .work{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+        display:flex;flex-direction:column;transition:transform .18s}
+  .work:hover{transform:translateY(-3px)}
+  .work .thumb{height:150px}
+  .work .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .work .body h3{font-size:18px}
+  .work .body p{font-size:13.5px;color:#5a6d7a;flex:1}
+  .btn{display:inline-block;border:none;border-radius:10px;padding:10px 16px;font:inherit;
+       font-size:14px;font-weight:600;cursor:pointer;color:#fff;text-align:center}
+  .btn.red{background:var(--red)}
+  .btn.teal{background:var(--teal)}
+
+  .detail-card{background:#fff;border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow);
+               display:grid;grid-template-columns:auto 1fr;gap:22px;margin-bottom:26px;border-top:5px solid var(--red)}
+  .detail-card .bookicon{width:74px;height:74px}
+  .detail-card h2{font-size:26px;margin-bottom:6px}
+  .detail-card p{color:#4a6170;font-size:14.5px;margin-bottom:14px}
+  .questions{background:var(--pink);border-radius:var(--radius);padding:22px 24px}
+  .questions h3{font-size:18px;color:#a3182c;margin-bottom:12px}
+  .questions ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .questions li{position:relative;padding-left:22px;font-size:14.5px;color:#5b2230}
+  .questions li::before{content:'◆';position:absolute;left:0;color:var(--red);font-size:12px;top:5px}
+
+  .activities{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:10px}
+  .act{border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;gap:10px;
+       box-shadow:var(--shadow);cursor:pointer;transition:transform .16s;min-height:158px}
+  .act:hover{transform:translateY(-3px)}
+  .act .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:rgba(255,255,255,.7)}
+  .act h4{font-size:15.5px}
+  .act p{font-size:12.5px;color:#4a5c68;flex:1}
+  .act .go{font-size:12px;font-weight:700;color:var(--teal)}
+
+  .extra{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+  .panel{background:#fff;border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow)}
+  .panel h3{font-size:18px;margin-bottom:12px}
+  .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .mini{background:var(--mint);border-radius:12px;padding:12px;font-size:13px;font-weight:600;color:#2a5a3f}
+  .quiz{background:#eaf3e6;border-radius:var(--radius);padding:22px 24px;display:flex;gap:18px;align-items:center}
+  .target{width:54px;height:54px;flex:none}
+
+  footer{background:var(--navy);color:#cfdde6;margin-top:60px;padding:34px 0;font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer .fname{font-family:Georgia,serif;font-size:22px;color:#fff;letter-spacing:2px}
+
+  @media(max-width:900px){
+    .sdg-grid{grid-template-columns:repeat(3,1fr)}
+    .activities{grid-template-columns:repeat(2,1fr)}
+    .works{grid-template-columns:1fr}
+    .grades{grid-template-columns:1fr}
+    .extra{grid-template-columns:1fr}
+    .detail-card{grid-template-columns:1fr}
+  }
+  @media(max-width:520px){
+    .sdg-grid{grid-template-columns:repeat(2,1fr)}
+    .navlinks{gap:14px;font-size:13px}
+    .logo .name{font-size:24px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo" onclick="showPage('home')">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 34c0-7 5-12 12-13V10c-7 1-12 6-12 13v11z" fill="#2e6b4f"/>
+        <path d="M40 34c0-7-5-12-12-13V10c7 1 12 6 12 13v11z" fill="#1f4d38"/>
+        <path d="M24 12c-3 4-3 8 0 12 3-4 3-8 0-12z" fill="#7fc49a"/>
+        <path d="M24 6c-2 3-2 6 0 9 2-3 2-6 0-9z" fill="#a8dcbb"/>
+      </svg>
+      <span class="name">MİRAS</span>
+    </div>
+    <nav class="navlinks">
+      <button id="navHome" class="active" onclick="showPage('home')">Ana Sayfa</button>
+      <button id="navAbout" onclick="showAbout()">Hakkında</button>
+      <div class="profile" title="Profil">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z"/></svg>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="page-home">
+    <div class="hero">
+      <h1>Edebî Metinlerden<br>Sürdürülebilir Bir Geleceğe</h1>
+      <p>Türk edebiyatının zengin mirasıyla, sürdürülebilir kalkınma hedeflerini keşfet, düşün, çözüm üret.</p>
+    </div>
+
+    <div class="grades">
+      <div class="grade g9" onclick="openGrade(9)">
+        <h2>9. Sınıf</h2>
+        <svg class="book" viewBox="0 0 64 52"><path d="M8 40V8c8-2 16 0 24 6V46c-8-6-16-8-24-6z" fill="none" stroke="#1f5c3d" stroke-width="2.5"/><path d="M56 40V8c-8-2-16 0-24 6V46c8-6 16-8 24-6z" fill="none" stroke="#1f5c3d" stroke-width="2.5"/></svg>
+        <div class="arrow-btn">→</div>
+      </div>
+      <div class="grade g10" onclick="openGrade(10)">
+        <h2>10. Sınıf</h2>
+        <svg class="book" viewBox="0 0 64 52"><path d="M8 40V8c8-2 16 0 24 6V46c-8-6-16-8-24-6z" fill="none" stroke="#1b4a78" stroke-width="2.5"/><path d="M56 40V8c-8-2-16 0-24 6V46c8-6 16-8 24-6z" fill="none" stroke="#1b4a78" stroke-width="2.5"/></svg>
+        <div class="arrow-btn">→</div>
+      </div>
+      <div class="grade g11" onclick="openGrade(11)">
+        <h2>11. Sınıf</h2>
+        <svg class="book" viewBox="0 0 64 52"><path d="M8 40V8c8-2 16 0 24 6V46c-8-6-16-8-24-6z" fill="none" stroke="#c9702a" stroke-width="2.5"/><path d="M56 40V8c-8-2-16 0-24 6V46c8-6 16-8 24-6z" fill="none" stroke="#c9702a" stroke-width="2.5"/></svg>
+        <div class="arrow-btn">→</div>
+      </div>
+    </div>
+
+    <div class="landscape">
+      <svg viewBox="0 0 1120 300" preserveAspectRatio="xMidYMax slice" aria-label="Kitaptan doğaya açılan manzara">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f4f9ef"/><stop offset="1" stop-color="#e4f1e0"/>
+          </linearGradient>
+          <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8ec5e8"/><stop offset="1" stop-color="#5fa8d8"/>
+          </linearGradient>
+        </defs>
+        <rect width="1120" height="300" fill="url(#sky)"/>
+        <circle cx="900" cy="70" r="34" fill="#f7d774"/>
+        <path d="M0 210 L150 120 L280 200 L420 110 L560 205 L700 130 L860 205 L1000 140 L1120 210 L1120 300 L0 300Z" fill="#cfe3d2"/>
+        <path d="M0 240 L180 175 L340 235 L520 165 L700 235 L880 180 L1120 245 L1120 300 L0 300Z" fill="#a9cfb0"/>
+        <path d="M560 300 C560 260 520 240 540 210 C560 185 610 180 620 205 C628 225 600 245 600 300Z" fill="url(#river)"/>
+        <path d="M0 270 C160 230 300 250 460 268 C640 288 800 250 1120 278 L1120 300 L0 300Z" fill="#6fae7d"/>
+        <g fill="#3f7d54">
+          <ellipse cx="140" cy="252" rx="16" ry="24"/><rect x="137" y="262" width="6" height="16" fill="#5a4632"/>
+          <ellipse cx="240" cy="262" rx="14" ry="20"/><rect x="237" y="270" width="6" height="14" fill="#5a4632"/>
+          <ellipse cx="860" cy="256" rx="18" ry="26"/><rect x="857" y="266" width="6" height="16" fill="#5a4632"/>
+          <ellipse cx="960" cy="264" rx="13" ry="19"/><rect x="957" y="272" width="6" height="12" fill="#5a4632"/>
+        </g>
+        <g fill="#9fb8c6">
+          <rect x="470" y="205" width="22" height="48"/><rect x="498" y="188" width="18" height="65"/>
+          <rect x="522" y="215" width="26" height="38"/><rect x="554" y="198" width="16" height="55"/>
+          <rect x="576" y="222" width="24" height="31"/><rect x="606" y="206" width="18" height="47"/>
+        </g>
+        <g fill="#7f9bab"><rect x="476" y="212" width="4" height="6"/><rect x="486" y="212" width="4" height="6"/><rect x="504" y="196" width="4" height="6"/><rect x="528" y="222" width="4" height="6"/><rect x="560" y="206" width="4" height="6"/></g>
+        <g stroke="#8a9aa6" stroke-width="3" fill="#dfe9ee">
+          <line x1="700" y1="185" x2="700" y2="250"/><circle cx="700" cy="185" r="4" fill="#8a9aa6"/>
+          <path d="M700 185 L700 150 M700 185 L732 200 M700 185 L668 200" stroke-width="3"/>
+          <line x1="760" y1="195" x2="760" y2="252"/><circle cx="760" cy="195" r="4" fill="#8a9aa6"/>
+          <path d="M760 195 L760 163 M760 195 L788 209 M760 195 L732 209" stroke-width="3"/>
+        </g>
+        <g stroke="#5b7382" stroke-width="2" fill="none">
+          <path d="M330 90 q6 -6 12 0 q6 -6 12 0"/>
+          <path d="M380 110 q5 -5 10 0 q5 -5 10 0"/>
+        </g>
+        <path d="M0 300 C60 250 180 240 260 265 C220 285 120 300 0 300Z" fill="#f3ecd9"/>
+        <path d="M1120 300 C1060 250 940 240 860 265 C900 285 1000 300 1120 300Z" fill="#ece3cd"/>
+        <g fill="#2e6b4f">
+          <ellipse cx="40" cy="285" rx="34" ry="14" transform="rotate(-20 40 285)"/>
+          <ellipse cx="90" cy="295" rx="28" ry="11" transform="rotate(10 90 295)"/>
+          <ellipse cx="1080" cy="285" rx="34" ry="14" transform="rotate(20 1080 285)"/>
+          <ellipse cx="1030" cy="296" rx="28" ry="11" transform="rotate(-10 1030 296)"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section id="page-about" class="page hidden">
+    <h1 class="title">Hakkında</h1>
+    <p class="sub">MİRAS, Türk edebiyatının zengin mirasını Birleşmiş Milletler Sürdürülebilir Kalkınma Hedefleri ile buluşturan bir eğitim platformudur.</p>
+    <div class="panel" style="max-width:760px">
+      <h3>Amacımız</h3>
+      <p style="color:#4a6170;margin-bottom:14px">Edebî metinleri yalnızca tarihî ve estetik birer eser olarak değil; toplumsal, ekonomik ve çevresel sorunları anlamanın ve çözüm üretmenin bir aracı olarak ele alıyoruz.</p>
+      <h3>Yaklaşımımız</h3>
+      <p style="color:#4a6170">Sorgulamaya dayalı öğrenme, disiplinler arası bağlantılar, öğrenci merkezli seçimler, etkileşimli etkinlikler ve çözüm odaklı düşünme yoluyla edebiyatı çağdaş dünyayla ilişkilendiriyoruz.</p>
+    </div>
+    <button class="backlink" onclick="showPage('home')">← Ana Sayfaya Dön</button>
+  </section>
+
+  <section id="page-sdgs" class="page hidden">
+    <button class="backlink" onclick="showPage('home')">← Geri</button>
+    <div class="breadcrumb" id="sdgCrumb"></div>
+    <h1 class="title">Sürdürülebilir Kalkınma Hedefleri</h1>
+    <p class="sub">İncelemek istediğin hedefi seç.</p>
+    <div class="sdg-grid" id="sdgGrid"></div>
+  </section>
+
+  <section id="page-goal" class="page hidden">
+    <button class="backlink" onclick="showPage('sdgs')">← Geri</button>
+    <div class="breadcrumb" id="goalCrumb"></div>
+
+    <div class="goal-banner" id="goalBanner">
+      <div class="goal-badge" id="goalBadge">1</div>
+      <div>
+        <h2 id="goalTitle">Yoksulluğa Son</h2>
+        <p id="goalDesc">Her yerde yoksulluğun tüm biçimlerini sona erdirmek.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Bu hedefle ilişkili edebî ürünler</h2>
+    <div class="works" id="worksGrid"></div>
+  </section>
+
+  <section id="page-work" class="page hidden">
+    <button class="backlink" onclick="showPage('goal')">← Geri</button>
+    <div class="breadcrumb" id="workCrumb"></div>
+
+    <div class="detail-card">
+      <svg class="bookicon" viewBox="0 0 74 74" aria-hidden="true">
+        <rect x="6" y="52" width="62" height="14" rx="4" fill="#e5243b" opacity=".18"/>
+        <path d="M10 54V16c10-3 20 0 27 7v35c-7-7-17-10-27-7z" fill="#fff" stroke="#e5243b" stroke-width="2.5"/>
+        <path d="M64 54V16c-10-3-20 0-27 7v35c7-7 17-10 27-7z" fill="#fff" stroke="#e5243b" stroke-width="2.5"/>
+        <path d="M37 22c-3 3-3 7 0 10 3-3 3-7 0-10z" fill="#2e6b4f"/>
+        <path d="M37 14c-2 3-2 6 0 9 2-3 2-6 0-9z" fill="#7fc49a"/>
+      </svg>
+      <div>
+        <h2 id="workTitle">Eser 1</h2>
+        <p id="workIntro">Bu eser, seçilen sürdürülebilir kalkınma hedefiyle ilişkili temaları edebî bir anlatı üzerinden ele alır. Eserdeki karakterler, mekânlar ve olaylar; hedefin işaret ettiği toplumsal sorunları insani bir perspektiften düşünmeye olanak tanır.</p>
+        <button class="btn red" onclick="alert('Eser inceleme sayfası demo amaçlıdır.')">Eseri İncele</button>
+      </div>
+    </div>
+
+    <div class="questions">
+      <h3>Bu eserin sana düşündürdüğü sorular</h3>
+      <ul>
+        <li>Eserdeki karakterlerin yaşam koşulları, seçtiğin hedefle nasıl ilişkilendirilebilir?</li>
+        <li>Metindeki hangi ayrıntılar toplumsal eşitsizliği görünür kılıyor?</li>
+        <li>Eserdeki sorunlara yönelik hangi çözümler hayal edilebilir?</li>
+        <li>Anlatılanlar, kendi çevrendeki hangi durumlarla benzerlik taşıyor?</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title">Bu eserle neler yapabilirsin?</h2>
+    <div class="activities" id="activities"></div>
+
+    <div class="extra">
+      <div class="panel">
+        <h3>Ek Etkinlikler</h3>
+        <div class="mini-grid">
+          <div class="mini">Kelime Avı</div>
+          <div class="mini">Karakter Analizi</div>
+          <div class="mini">Zaman Çizelgesi</div>
+          <div class="mini">Yaratıcı Yazma</div>
+        </div>
+      </div>
+      <div class="quiz">
+        <svg class="target" viewBox="0 0 54 54" aria-hidden="true">
+          <circle cx="27" cy="27" r="23" fill="#fff" stroke="#2e6b4f" stroke-width="3"/>
+          <circle cx="27" cy="27" r="14" fill="#fff" stroke="#2e6b4f" stroke-width="3"/>
+          <circle cx="27" cy="27" r="5" fill="#e5243b"/>
+        </svg>
+        <div>
+          <h3 style="margin-bottom:4px">Örnek Quiz</h3>
+          <p style="font-size:14px;color:#4a6170">Eseri, hedefi ve aralarındaki ilişkiyi ne kadar kavradığını test et.</p>
+          <button class="btn teal" style="margin-top:10px" onclick="alert('Quiz demo amaçlıdır.')">Quize Başla</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fname">MİRAS</div>
+    <div>Edebî Metinlerden Sürdürülebilir Bir Geleceğe · Demo Arayüz</div>
+  </div>
+</footer>
+
+<script>
+const SDGS = [
+  {n:1,  name:'Yoksulluğa Son',                  color:'#e5243b', desc:'Her yerde yoksulluğun tüm biçimlerini sona erdirmek.'},
+  {n:2,  name:'Açlığa Son',                      color:'#dda63a', desc:'Açlığı bitirmek, gıda güvenliğini sağlamak ve beslenmeyi iyileştirmek.'},
+  {n:3,  name:'Sağlık ve Kaliteli Yaşam',        color:'#4c9f38', desc:'Her yaşta sağlıklı bir yaşamı güvence altına almak.'},
+  {n:4,  name:'Nitelikli Eğitim',                color:'#c5192d', desc:'Kapsayıcı ve nitelikli eğitimi herkes için sağlamak.'},
+  {n:5,  name:'Toplumsal Cinsiyet Eşitliği',     color:'#ff3a21', desc:'Cinsiyet eşitliğini sağlamak ve kadınları güçlendirmek.'},
+  {n:6,  name:'Temiz Su ve Sanitasyon',          color:'#26bde2', desc:'Herkes için su ve sanitasyona erişimi sağlamak.'},
+  {n:7,  name:'Erişilebilir ve Temiz Enerji',    color:'#fcc30b', desc:'Herkes için erişilebilir, güvenilir ve temiz enerji sağlamak.'},
+  {n:8,  name:'İnsana Yakışır İş ve Ekonomik Büyüme', color:'#a21942', desc:'Sürdürülebilir ekonomik büyüme ve insana yakışır iş.'},
+  {n:9,  name:'Sanayi, Yenilikçilik ve Altyapı', color:'#fd6925', desc:'Dayanıklı altyapı, kapsayıcı sanayi ve yenilikçilik.'},
+  {n:10, name:'Eşitsizliklerin Azaltılması',     color:'#dd1367', desc:'Ülkeler içinde ve arasında eşitsizlikleri azaltmak.'},
+  {n:11, name:'Sürdürülebilir Şehirler ve Topluluklar', color:'#fd9d24', desc:'Şehirleri kapsayıcı, güvenli ve sürdürülebilir kılmak.'},
+  {n:12, name:'Sorumlu Üretim ve Tüketim',       color:'#bf8b2e', desc:'Sürdürülebilir üretim ve tüketim kalıplarını sağlamak.'},
+  {n:13, name:'İklim Eylemi',                    color:'#3f7e44', desc:'İklim değişikliği ve etkileriyle mücadele etmek.'},
+  {n:14, name:'Sudaki Yaşam',                    color:'#0a97d9', desc:'Okyanusları, denizleri ve deniz kaynaklarını korumak.'},
+  {n:15, name:'Karasal Yaşam',                   color:'#56c02b', desc:'Karasal ekosistemleri korumak ve biyolojik çeşitliliği durdurmak.'},
+  {n:16, name:'Barış, Adalet ve Güçlü Kurumlar', color:'#00689d', desc:'Barışçıl toplumlar, adalete erişim ve güçlü kurumlar.'},
+  {n:17, name:'Amaçlar için Ortaklıklar',        color:'#19486a', desc:'Sürdürülebilir kalkınma için küresel ortaklıkları güçlendirmek.'}
+];
+
+const WORKS = {
+  title:'Eser 1',
+  intro:'Bu eser, seçilen sürdürülebilir kalkınma hedefiyle ilişkili temaları edebî bir anlatı üzerinden ele alır. Eserdeki karakterler, mekânlar ve olaylar; hedefin işaret ettiği toplumsal sorunları insani bir perspektiften düşünmeye olanak tanır.'
+};
+
+const ACTIVITIES = [
+  {t:'Metni İncele',    d:'Yakın okuma yaparak metnin öne çıkan bölümlerini ve anlatım tekniklerini incele.', c:'#dbe9f7', ic:'🔍'},
+  {t:'Düşün ve Yorumla',d:'Metnin ne anlattığını ve ne anlam ifade ettiğini kendi bakış açınla yorumla.', c:'#fdf0d0', ic:'💡'},
+  {t:'Etkinlik Yap',    d:'Eserle ilişkili uygulamalı alıştırmaları tamamla.', c:'#dff0e4', ic:'✏️'},
+  {t:'Oyun ve Keşfet',  d:'Oyun temelli etkinliklerle eseri eğlenerek keşfet.', c:'#e8e0f7', ic:'🎮'},
+  {t:'Çözüm Üret',      d:'Eserde ele alınan soruna yönelik yaratıcı çözümler geliştir.', c:'#fbe4ea', ic:'🌱'}
+];
+
+let state = {grade:9, goal:null};
+
+function showPage(id){
+  ['home','about','sdgs','goal','work'].forEach(function(p){
+    document.getElementById('page-'+p).classList.add('hidden');
+  });
+  document.getElementById('page-'+id).classList.remove('hidden');
+  document.getElementById('navHome').classList.toggle('active', id==='home');
+  document.getElementById('navAbout').classList.toggle('active', id==='about');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showAbout(){ showPage('about'); }
+
+function openGrade(g){
+  state.grade = g;
+  document.getElementById('sdgCrumb').innerHTML = '<b>'+g+'. Sınıf</b> > Sürdürülebilir Kalkınma Hedefleri';
+  renderSDGs();
+  showPage('sdgs');
+}
+
+function renderSDGs(){
+  const grid = document.getElementById('sdgGrid');
+  grid.innerHTML = '';
+  SDGS.forEach(function(s){
+    const d = document.createElement('div');
+    d.className='sdg';
+    d.style.background = s.color;
+    d.innerHTML = '<div class="num">'+s.n+'</div><div class="name">'+s.name+'</div>';
+    d.onclick = function(){ openGoal(s.n); };
+    grid.appendChild(d);
+  });
+}
+
+function openGoal(n){
+  const s = SDGS.find(function(x){return x.n===n;});
+  state.goal = s;
+  document.getElementById('goalCrumb').innerHTML =
+    '<b>'+state.grade+'. Sınıf</b> > <b>'+s.n+'. '+s.name+'</b>';
+  document.getElementById('goalBadge').textContent = s.n;
+  document.getElementById('goalTitle').textContent = s.name;
+  document.getElementById('goalDesc').textContent = s.desc;
+  document.getElementById('goalBanner').style.background = s.color;
+
+  const grid = document.getElementById('worksGrid');
+  grid.innerHTML = '';
+  const art = [
+    {t:'Eser 1', d:'Kırsal yaşamın zorluklarını ve dayanışmayı anlatan bir hikâye.', c:'#f6d7c4'},
+    {t:'Eser 2', d:'Kuşaklar arası sorumluluğu ve yardımlaşmayı işleyen bir anlatı.', c:'#f3e3c8'},
+    {t:'Eser 3', d:'Kent yoksulluğunu ve mahalle yaşamını ele alan bir metin.', c:'#e3d9cc'}
+  ];
+  art.forEach(function(a){
+    const card = document.createElement('div');
+    card.className='work';
+    card.innerHTML =
+      '<div class="thumb" style="background:'+a.c+'"></div>'+
+      '<div class="body"><h3>'+a.t+'</h3><p>'+a.d+'</p>'+
+      '<button class="btn red">Detayları Gör</button></div>';
+    card.querySelector('button').onclick = function(){ openWork(a.t); };
+    grid.appendChild(card);
+  });
+
+  showPage('goal');
+}
+
+function openWork(title){
+  const s = state.goal;
+  document.getElementById('workCrumb').innerHTML =
+    '<b>'+state.grade+'. Sınıf</b> > <b>'+s.n+'. '+s.name+'</b> > <b>'+title+'</b>';
+  document.getElementById('workTitle').textContent = title;
+  document.getElementById('workIntro').textContent = WORKS.intro;
+
+  const acts = document.getElementById('activities');
+  acts.innerHTML = '';
+  ACTIVITIES.forEach(function(a){
+    const d = document.createElement('div');
+    d.className='act';
+    d.style.background = a.c;
+    d.innerHTML =
+      '<div class="ic">'+a.ic+'</div><h4>'+a.t+'</h4><p>'+a.d+'</p>'+
+      '<div class="go">Başla →</div>';
+    d.onclick = function(){ alert('"'+a.t+'" etkinliği demo amaçlıdır.'); };
+    acts.appendChild(d);
+  });
+
+  showPage('work');
+}
+</script>
+</body>
+</html>
